@@ -33,7 +33,9 @@ export class SearchBarComponent implements OnInit, OnDestroy {
   setSearchFieldLiestener(){
     this.formSearch.get('search')?.
     valueChanges.subscribe((value) => {
+     setTimeout(() => {
       this.search(value);
+     }, 500);
     });
   }
 
@@ -42,9 +44,6 @@ export class SearchBarComponent implements OnInit, OnDestroy {
     
     this._subscriptions.add(
       this._searchService.search(value).subscribe({
-        next: (data: any) => {
-         this.setDataCollection(data);
-        },
         error: (error) => {
           console.log(error.message);
         },
@@ -57,6 +56,11 @@ export class SearchBarComponent implements OnInit, OnDestroy {
 
   setDataCollection(data: IItem[]): void{
     this._searchService.setDataCollection(data);
+  }
+
+  cancelQueue(): void {
+    this._searchService.cancelQueue();
+    this.loading = false;
   }
 
   ngOnDestroy(): void {
