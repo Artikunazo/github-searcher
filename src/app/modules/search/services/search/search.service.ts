@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ConnectorService } from '@core/services/connector/connector.service';
 import { environment } from '@environments/environment';
-import { IItem } from '@modules/search/models/item.mode';
-import { Observable, EMPTY, throwError } from 'rxjs';
+import { IItem } from '@modules/search/models/item.model';
+import { Observable, EMPTY, throwError, BehaviorSubject, Subject } from 'rxjs';
 import {
   map,
   delay,
@@ -12,7 +12,8 @@ import { IResponseAPI } from '../../models/response-api.model';
 @Injectable({
   providedIn: 'root',
 })
-export class SearchService {  
+export class SearchService {
+  public dataCollection = new Subject();
   private apiUrl = environment.apiUrl;
 
   constructor(private _connectorService: ConnectorService) {}
@@ -49,6 +50,10 @@ export class SearchService {
 
   encodeValueToUri(value: string): string{
     return encodeURIComponent(value);
+  }
+
+  setDataCollection(data: IItem[]): void{
+    this.dataCollection.next(data);
   }
 
 }

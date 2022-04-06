@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angu
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { SearchService } from '../../services/search/search.service';
 import { Subscription, EMPTY, Observable } from 'rxjs';
-import { IItem } from '@modules/search/models/item.mode';
+import { IItem } from '@modules/search/models/item.model';
 
 @Component({
   selector: 'search-bar',
@@ -10,8 +10,6 @@ import { IItem } from '@modules/search/models/item.mode';
   styleUrls: ['./search-bar.component.css'],
 })
 export class SearchBarComponent implements OnInit, OnDestroy {
-
-  @Output() results = new EventEmitter();
 
   public typeSearchList: string[] = [];
   public formSearch: FormGroup;
@@ -24,7 +22,7 @@ export class SearchBarComponent implements OnInit, OnDestroy {
     private _searchService: SearchService
   ) {
     this.formSearch = this._formBuilder.group({
-      name: ['', [Validators.required]],
+      search: ['', [Validators.required]],
     });
   }
 
@@ -33,7 +31,7 @@ export class SearchBarComponent implements OnInit, OnDestroy {
   }
 
   setSearchFieldLiestener(){
-    this.formSearch.get('name')?.
+    this.formSearch.get('search')?.
     valueChanges.subscribe((value) => {
       this.search(value);
     });
@@ -43,12 +41,12 @@ export class SearchBarComponent implements OnInit, OnDestroy {
     this.loading = true;
     
     this._subscriptions.add(
-      this.sendRequest(value).subscribe({
-        next: (data) => {
-          console.log(data);
+      this._searchService.search(value).subscribe({
+        next: (data: any) => {
+         this.setDataCollection(data);
         },
         error: (error) => {
-          console.log(error);
+          console.log(error.message);
         },
         complete: () => {
           this.loading = false;
@@ -57,12 +55,8 @@ export class SearchBarComponent implements OnInit, OnDestroy {
     );
   }
 
-  sendRequest(value: string): Observable<Object | IItem[]> {
-    if(!value){
-      return EMPTY;
-    }
-
-    return this._searchService.search(value);
+  setDataCollection(data: IItem[]): void{
+    this._searchService.setDataCollection(data);
   }
 
   ngOnDestroy(): void {

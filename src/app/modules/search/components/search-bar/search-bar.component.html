@@ -7,25 +7,16 @@
       placeholder="Search by username, repo name, etc..."
       aria-label="Search..."
       aria-describedby="basic-addon2"
-      formControlName="name"
+      formControlName="search"
       [ngClass]="{
         'is-invalid':
-          !formSearch.controls['name'].valid &&
-          formSearch.controls['name'].touched
+          !formSearch.controls['search'].valid &&
+          formSearch.controls['search'].touched
       }"
       required
     />
 
     <div class="input-group-append">
-      <!-- <button
-        class="btn btn-outline-danger"
-        type="button"
-        (click)="cancelQueue()"
-        *ngIf="loading"
-      >
-        <i class="fa fa-times"></i>
-      </button> -->
-
       <button class="btn btn-outline-secondary" type="submit" *ngIf="!loading">
         <i class="fa fa-search"></i>
       </button>
