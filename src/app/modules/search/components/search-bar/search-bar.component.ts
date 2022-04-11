@@ -1,7 +1,8 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnDestroy, HostListener } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { SearchService } from '../../services/search/search.service';
-import { Subscription, EMPTY, Observable } from 'rxjs';
+import { Subscription } from 'rxjs';
+import { delay } from 'rxjs/operators';
 import { IItem } from '@modules/search/models/item.model';
 
 @Component({
@@ -15,6 +16,7 @@ export class SearchBarComponent implements OnInit, OnDestroy {
   public formSearch: FormGroup;
   public loading: boolean = false;
 
+  private requestSent: boolean = false;
   private _subscriptions = new Subscription();
 
   constructor(
@@ -41,14 +43,17 @@ export class SearchBarComponent implements OnInit, OnDestroy {
 
   search(value: string): void {
     this.loading = true;
-    
+
     this._subscriptions.add(
-      this._searchService.search(value).subscribe({
+      this._searchService.search(value)
+      .pipe(delay(500)).subscribe({
         error: (error) => {
-          console.log(error.message);
+          console.log(error);
+          alert('An error has occurred. Please try again in some minutes.');
+          this.cancelQueue();
         },
         complete: () => {
-          this.loading = false;
+          this.cancelQueue();
         }
       })
     );
@@ -59,11 +64,26 @@ export class SearchBarComponent implements OnInit, OnDestroy {
   }
 
   cancelQueue(): void {
-    this._searchService.cancelQueue();
     this.loading = false;
+    this.requestSent = false;
   }
 
   ngOnDestroy(): void {
     this._subscriptions.unsubscribe();
+  }
+
+  @HostListener('document:scroll', ['$event'])
+  onScroll(event: any): void {
+    const scroll = event.target.scrollingElement.scrollTop;
+    const totalHeight = event.target.scrollingElement.scrollHeight;
+
+    // it gets at least half of all scroll height
+    const scrollValidation = totalHeight / 2; 
+
+    if(scroll >= scrollValidation && !this.requestSent){
+      this.requestSent = true;
+      this.search(this.formSearch.get('search')?.value);
+    }
+
   }
 }

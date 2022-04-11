@@ -17,10 +17,9 @@ import { IResponseAPI } from '../../models/response-api.model';
 })
 export class SearchService {
   public dataCollection$ = new BehaviorSubject<IItem[]>([]);
-  public stopRequestQueue:boolean = false;
 
   private apiUrl = environment.apiUrl;
-  private pagesCounter: number = 1;
+  private pagesCounter: number = 0;
   private valueToSearch: string = '';
 
   constructor(private _connectorService: ConnectorService) {}
@@ -44,17 +43,17 @@ export class SearchService {
     this.valueToSearch = value;
     const url = this.getUrl();
 
-    return this.searchMoreResults(this.getDataFromApi(url))
+    return this.getDataFromApi(url)
     .pipe(
       map((data: IResponseAPI) => {
-        console.log('search', data);
-
+        
         if(data.errors){
           return throwError(() => data.message);
         }
 
-        this.setDataCollection(data.items);
-        return data.items;
+        const results = [...this.dataCollection$.getValue(), ...data.items];
+        this.setDataCollection(results);
+        return results;
       })
     );
   }
@@ -63,49 +62,16 @@ export class SearchService {
     return encodeURIComponent(value);
   }
 
-  searchMoreResults(results: Observable<any>): Observable<any> {
-    return results.pipe(
-      expand((data: any) => {
-        console.log('expand', data);
-
-        if (this.stopRequestQueue) {
-          this.stopRequestQueue = false;
-          return EMPTY;
-        }
-
-        if (this.dataCollection$.value.length === data.total_count) {
-          return EMPTY;
-        }
-
-        this.pagesCounter++;
-
-        const url = this.getUrl();
-
-        return this.getDataFromApi(url)
-        .pipe(
-          delay(1000)
-        );
-      }),
-      scan((accumulator: any, data: any) => {
-        console.log('Scan', data);
-        return [...accumulator, ...data.items];
-      }, []),
-    );
-  }
-
   setDataCollection(data: IItem[]): void {
     this.dataCollection$.next(data);
   }
 
-  cancelQueue(): void {
-    this.stopRequestQueue = true;
-    this.pagesCounter = 0;
-  }
-
   getUrl(): string {
-    return this.apiUrl + '?q=' + 
-      this.encodeValueToUri(this.valueToSearch) + 
-      '&page=' + 
+    this.pagesCounter++;
+
+    return this.apiUrl + '?q=' +
+      this.encodeValueToUri(this.valueToSearch) +
+      '&page=' +
       this.pagesCounter;
   }
 
