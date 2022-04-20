@@ -10,7 +10,7 @@ import { IItem } from '@modules/search/models/item.model';
 @Component({
   selector: 'card-result',
   templateUrl: './card-result.component.html',
-  styleUrls: ['./card-result.component.css'],
+  styleUrls: ['./card-result.component.scss'],
 })
 export class CardResultComponent implements OnInit, OnDestroy {
   @Input() result!: IItem;
@@ -20,7 +20,7 @@ export class CardResultComponent implements OnInit, OnDestroy {
   constructor() { }
 
   ngOnInit(): void {
-   
+
   }
 
   ngOnDestroy(): void {

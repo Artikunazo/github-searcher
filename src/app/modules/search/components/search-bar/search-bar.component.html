@@ -1,37 +1,30 @@
 <form [formGroup]="formSearch" (ngSubmit)="search(formSearch.value.name)">
-  <div class="input-group mb-3">
+  <div class="row search-bar__container">
+    <div class="col-xs-12 col-md-10">
+      <input
+        type="text"
+        class="form-control search-bar__input"
+        placeholder="Search by username, repo name, etc..."
+        aria-label="Search..."
+        aria-describedby="basic-addon2"
+        formControlName="search"
+        [ngClass]="{
+          'is-invalid':
+            !formSearch.controls['search'].valid &&
+            formSearch.controls['search'].touched
+        }"
+        required
+      />
+    </div>
 
-    <input
-      type="text"
-      class="form-control"
-      placeholder="Search by username, repo name, etc..."
-      aria-label="Search..."
-      aria-describedby="basic-addon2"
-      formControlName="search"
-      [ngClass]="{
-        'is-invalid':
-          !formSearch.controls['search'].valid &&
-          formSearch.controls['search'].touched
-      }"
-      required
-    />
-
-    <div class="input-group-append">
+    <div class="col-xs-12 col-md-2">
       <button
-        *ngIf="loading"
-        class="btn btn-outline-danger"
-        type="button"
-        (click)="cancelQueue()"
-      >
-        <i class="fa fa-times"></i>
-      </button>
-
-      <button 
-        *ngIf="!loading"
-        class="btn btn-outline-secondary" 
-        type="submit" 
+        class="btn btn-primary search-bar__button"
+        type="submit"
+        [disabled]="loading"
       >
         <i class="fa fa-search"></i>
+        Search
       </button>
     </div>
   </div>

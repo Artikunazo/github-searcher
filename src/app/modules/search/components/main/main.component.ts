@@ -6,7 +6,7 @@ import { IItem } from '@modules/search/models/item.model';
 @Component({
   selector: 'main',
   templateUrl: './main.component.html',
-  styleUrls: ['./main.component.css'],
+  styleUrls: ['./main.component.scss'],
 })
 export class MainComponent implements OnInit, OnDestroy {
   public results: IItem[] = [];

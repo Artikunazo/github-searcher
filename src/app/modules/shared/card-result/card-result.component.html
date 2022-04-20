@@ -1,4 +1,4 @@
-<div class="card pb-4">
+<div class="card">
   <div class="card-header">
     <h5 class="card-title">
       <small>
@@ -12,15 +12,8 @@
           title="Status: {{ result.state }}"
         ></i>
       </small>
-      <a
-          href="{{ result.html_url }}"
-          target="_blank"
-          title="View on Github"
-        class="text-decoration-none text-black"
-      >
-        {{ result.title }}
-      </a>
-      
+      {{ result.title }}
+
     </h5>
   </div>
   <div class="card-body">
@@ -53,7 +46,7 @@
             </a>
           </li>
         </ul>
-      </div>      
+      </div>
 
       <p *ngIf="result?.pull_request?.html_url">
         <a
@@ -68,30 +61,29 @@
       <p>
         Comments: <strong>{{ result.comments }}</strong>
       </p>
-      
+
       <p>Created at: <strong>{{ result.created_at | date: "long" }}</strong></p>
 
       <p>Updated at: <strong>{{ result.updated_at | date: "long" }}</strong></p>
 
+      <p>
+        Score: <strong>{{ result.score }}</strong>
+      </p>
     </div>
   </div>
 
   <div class="card-footer">
     <div class="row">
-      <div class="col-6">
-        <p>
-          Score: <strong>{{ result.score }}</strong>
-        </p>
-      </div>
-      <div class="col-6 d-flex justify-content-end">
-        <a
+      <div class="col-12 d-flex justify-content-center">
+          <a
           href="{{ result.html_url }}"
           target="_blank"
-          class="btn"
+          class="btn btn-primary card__view-button"
           title="View on Github"
         >
-          <i class="fa fa-external-link"></i>
+          View on Github
         </a>
+
       </div>
     </div>
   </div>

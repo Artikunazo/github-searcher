@@ -8,7 +8,7 @@ import { IItem } from '@modules/search/models/item.model';
 @Component({
   selector: 'search-bar',
   templateUrl: './search-bar.component.html',
-  styleUrls: ['./search-bar.component.css'],
+  styleUrls: ['./search-bar.component.scss'],
 })
 export class SearchBarComponent implements OnInit, OnDestroy {
 
@@ -36,6 +36,7 @@ export class SearchBarComponent implements OnInit, OnDestroy {
     this.formSearch.get('search')?.
     valueChanges.subscribe((value) => {
      setTimeout(() => {
+      this._searchService.setDataCollection([]);
       this.search(value);
      }, 500);
     });
@@ -78,7 +79,7 @@ export class SearchBarComponent implements OnInit, OnDestroy {
     const totalHeight = event.target.scrollingElement.scrollHeight;
 
     // it gets at least half of all scroll height
-    const scrollValidation = totalHeight / 2; 
+    const scrollValidation = totalHeight / 2;
 
     if(scroll >= scrollValidation && !this.requestSent){
       this.requestSent = true;
