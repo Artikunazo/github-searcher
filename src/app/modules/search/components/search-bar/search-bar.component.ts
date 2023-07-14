@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnDestroy, HostListener } from '@angular/core';
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, Validators, UntypedFormGroup } from '@angular/forms';
 import { SearchService } from '../../services/search/search.service';
 import { Subscription } from 'rxjs';
 import { delay } from 'rxjs/operators';
@@ -13,14 +13,14 @@ import { IItem } from '@modules/search/models/item.model';
 export class SearchBarComponent implements OnInit, OnDestroy {
 
   public typeSearchList: string[] = [];
-  public formSearch: FormGroup;
+  public formSearch: UntypedFormGroup;
   public loading: boolean = false;
 
   private requestSent: boolean = false;
   private _subscriptions = new Subscription();
 
   constructor(
-    private _formBuilder: FormBuilder,
+    private _formBuilder: UntypedFormBuilder,
     private _searchService: SearchService
   ) {
     this.formSearch = this._formBuilder.group({
