@@ -1,4 +1,4 @@
-<section class="container">
+<section class="container-liquid px-2">
   <br />
   <div class="row">
     <div class="col-12 text-center">
@@ -27,28 +27,12 @@
 
   <div
     class="row results-container mt-3"
-    *ngIf="results?.length; else emptyResults"
+    *ngIf="results?.length"
   >
     <ng-container *ngFor="let result of results">
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+      <div class="xs-12 sm-6 md-4 lg-3 mx-3 my-2">
         <card-result [result]="result"></card-result>
       </div>
     </ng-container>
   </div>
 </section>
-
-<ng-template #emptyResults>
-  <div class="row mt-3">
-    <div class="col-12">
-      <div class="alert alert-info" role="alert">
-        <strong>
-          <i class="fa fa-info-circle"></i>
-        </strong>
-        <span>
-          Para buscar issues dentro de GitHub se puede realizar escribiendo por
-          username, branch, o nombre de repositorio, en el campo de búsqueda.
-        </span>
-      </div>
-    </div>
-  </div>
-</ng-template>

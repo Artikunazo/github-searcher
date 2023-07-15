@@ -1,22 +1,16 @@
-<div class="card">
-  <div class="card-header">
-    <h5 class="card-title">
-      <small>
-        <i
-          class="fa fa-circle"
-          aria-hidden="true"
-          [ngClass]="{
-            'text-success': result.state === 'open',
-            'text-danger': result.state === 'closed'
-          }"
-          title="Status: {{ result.state }}"
-        ></i>
-      </small>
-      {{ result.title }}
-
-    </h5>
-  </div>
-  <div class="card-body">
+<mat-card>
+  <mat-card-header>
+    <div>
+      <mat-icon
+      [class.text-success]="result.state === 'open'"
+      [class.text-danger]="result.state === 'closed'"
+      title="Status: {{ result.state }}"
+      >circle</mat-icon
+    >
+    <p>{{ result.title }}</p>
+    </div>
+  </mat-card-header>
+  <mat-card-content class="card-body">
     <div class="card-text">
       <p *ngIf="result?.assignee?.html_url; else nobodyAssigned">
         Assignee:
@@ -30,7 +24,9 @@
       </p>
 
       <ng-template #nobodyAssigned>
-        <p>Assignee: <strong><i>Nobody assigned yet</i></strong></p>
+        <p>
+          Assignee: <strong><i>Nobody assigned yet</i></strong>
+        </p>
       </ng-template>
 
       <div *ngIf="result?.assignees?.length">
@@ -62,30 +58,29 @@
         Comments: <strong>{{ result.comments }}</strong>
       </p>
 
-      <p>Created at: <strong>{{ result.created_at | date: "long" }}</strong></p>
+      <p>
+        Created at: <strong>{{ result.created_at | date : "long" }}</strong>
+      </p>
 
-      <p>Updated at: <strong>{{ result.updated_at | date: "long" }}</strong></p>
+      <p>
+        Updated at: <strong>{{ result.updated_at | date : "long" }}</strong>
+      </p>
 
       <p>
         Score: <strong>{{ result.score }}</strong>
       </p>
     </div>
-  </div>
-
-  <div class="card-footer">
-    <div class="row">
-      <div class="col-12 d-flex justify-content-center">
-          <a
-          href="{{ result.html_url }}"
-          target="_blank"
-          class="btn btn-primary card__view-button"
-          title="View on Github"
-        >
-          View on Github
-        </a>
-
-      </div>
-    </div>
-  </div>
-
-</div>
+  </mat-card-content>
+  <mat-card-actions>
+    <a
+      mat-raised-button
+      color="primary"
+      href="{{ result.html_url }}"
+      target="_blank"
+      class="btn btn-primary card__view-button"
+      title="View on Github"
+    >
+      View on Github
+    </a>
+  </mat-card-actions>
+</mat-card>

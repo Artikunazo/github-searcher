@@ -1,8 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
 
 /* Importing Bootstrap SCSS file. */
-@import '~bootstrap/scss/bootstrap';
-@import '~font-awesome/css/font-awesome.min.css';
+@import "~node_modules/gary-css/gary.min.css";
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.mt-3 {
+    margin-top: 3rem;
+}
+
+.mx-3 {
+    margin-left: 1rem;
+    margin-right: 1rem;
+} 
+.my-2 {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+.px-2 {
+    padding: 0 1rem 0 1rem;
+}

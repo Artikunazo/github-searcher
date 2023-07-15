@@ -1,7 +1,8 @@
 <form [formGroup]="formSearch" (ngSubmit)="search(formSearch.value.name)">
-  <div class="row search-bar__container">
-    <div class="col-xs-12 col-md-10">
+  <div class="row">
+    <mat-form-field class="col-12">
       <input
+        matInput
         type="text"
         class="form-control search-bar__input"
         placeholder="Search by username, repo name, etc..."
@@ -15,18 +16,11 @@
         }"
         required
       />
-    </div>
-
-    <div class="col-xs-12 col-md-2">
-      <button
-        class="btn btn-primary search-bar__button"
-        type="submit"
-        [disabled]="loading"
-      >
-        <i class="fa fa-search"></i>
-        Search
-      </button>
-    </div>
+    </mat-form-field>
+    <small class="text-muted col-12"
+      >To search for issues within GitHub you can do so by typing by username,
+      branch, or repository name, in the search field.</small
+    >
   </div>
 </form>
 

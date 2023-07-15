@@ -6,7 +6,7 @@ import { SharedModule } from '@shared/shared.module'
 import { MainComponent } from './components/main/main.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { SearchRoutingModule } from './search-routing.module';
-
+import { MaterialModule } from "../material/material.module";
 
 @NgModule({
   declarations: [
@@ -18,7 +18,8 @@ import { SearchRoutingModule } from './search-routing.module';
     SearchRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
-    SharedModule
+    SharedModule,
+    MaterialModule
   ]
 })
 export class SearchModule { }
