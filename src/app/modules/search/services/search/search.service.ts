@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ConnectorService } from '@core/services/connector/connector.service';
 import { environment } from '@environments/environment';
-import { IItem } from '@modules/search/models/item.model';
+import { Item } from '@modules/search/models/item.model';
 import { Observable, EMPTY, throwError, BehaviorSubject, Subject } from 'rxjs';
 import {
   map,
@@ -10,17 +10,17 @@ import {
   scan,
   take
 } from 'rxjs/operators';
-import { IResponseAPI } from '../../models/response-api.model';
+import { ApiGithubResponse } from '../../models/response-api.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SearchService {
-  public dataCollection$ = new BehaviorSubject<IItem[]>([]);
+  public dataCollection$ = new BehaviorSubject<Item[]>([]);
 
   private apiUrl = environment.apiUrl;
-  private pagesCounter: number = 0;
-  private valueToSearch: string = '';
+  private pagesCounter = 0;
+  private valueToSearch = '';
 
   constructor(private _connectorService: ConnectorService) {}
 
@@ -35,23 +35,25 @@ export class SearchService {
     );
   }
 
-  search(value: string): Observable<Object | IItem[]> {
+  search(value: string): Observable<Object | Item[]> {
     if(!value){
       return EMPTY;
     }
+
+    debugger;
 
     this.valueToSearch = value;
     const url = this.getUrl();
 
     return this.getDataFromApi(url)
     .pipe(
-      map((data: IResponseAPI) => {
+      map((response: ApiGithubResponse) => {
         
-        if(data.errors){
-          return throwError(() => data.message);
+        if(response.errors){
+          return throwError(() => response.message);
         }
 
-        const results = [...this.dataCollection$.getValue(), ...data.items];
+        const results = [...this.dataCollection$.getValue(), ...response.items];
         this.setDataCollection(results);
         return results;
       })
@@ -62,7 +64,7 @@ export class SearchService {
     return encodeURIComponent(value);
   }
 
-  setDataCollection(data: IItem[]): void {
+  setDataCollection(data: Item[]): void {
     this.dataCollection$.next(data);
   }
 
@@ -73,6 +75,10 @@ export class SearchService {
       this.encodeValueToUri(this.valueToSearch) +
       '&page=' +
       this.pagesCounter;
+  }
+
+  searchFromScroll() {
+    this.search(this.valueToSearch);
   }
 
 }

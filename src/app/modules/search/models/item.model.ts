@@ -2,7 +2,7 @@ import { IUser } from './user.model';
 import { IPullRequest } from './pull-request.model';
 import { IReactions } from './reactions.model';
 
-export interface IItem {
+export interface Item {
   url: string;
   repository_url: string;
   labels_url: string;

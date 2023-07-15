@@ -9,6 +9,12 @@ import { MatIconModule } from '@angular/material/icon';
 @NgModule({
   declarations: [],
   imports: [CommonModule, MatInputModule, MatCardModule, MatIconModule],
-  exports: [MatInputModule, MatCardModule, MatFormFieldModule, MatButtonModule, MatIconModule],
+  exports: [
+    MatInputModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatButtonModule,
+    MatIconModule,
+  ],
 })
 export class MaterialModule {}

@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { SearchService } from '@modules/search/services/search/search.service';
-import { IItem } from '@modules/search/models/item.model';
+import { Item } from '@modules/search/models/item.model';
 
 @Component({
   selector: 'main',
@@ -9,16 +9,17 @@ import { IItem } from '@modules/search/models/item.model';
   styleUrls: ['./main.component.scss'],
 })
 export class MainComponent implements OnInit, OnDestroy {
-  public results: IItem[] = [];
+  public results: Item[] = [];
+  public scrollChanged = new Subject<any>;
 
-  private _subscriptions = new Subscription();
+  private subscriptions$ = new Subscription();
 
   constructor(
     private _searchService: SearchService
   ) {}
 
   ngOnInit(): void {
-    this._subscriptions.add(
+    this.subscriptions$.add(
       this._searchService.dataCollection$.subscribe({
         next: () => {
           this.results = this._searchService.dataCollection$.getValue();
@@ -27,7 +28,11 @@ export class MainComponent implements OnInit, OnDestroy {
     );
   }
 
+  onScroll() {
+    this._searchService.searchFromScroll();
+  }
+
   ngOnDestroy(): void {
-    this._subscriptions.unsubscribe();
+    this.subscriptions$.unsubscribe();
   }
 }

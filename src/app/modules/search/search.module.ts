@@ -7,6 +7,7 @@ import { MainComponent } from './components/main/main.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { SearchRoutingModule } from './search-routing.module';
 import { MaterialModule } from "../material/material.module";
+import { InfiniteScrollModule } from "ngx-infinite-scroll";
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { MaterialModule } from "../material/material.module";
     HttpClientModule,
     ReactiveFormsModule,
     SharedModule,
-    MaterialModule
+    MaterialModule,
+    InfiniteScrollModule
   ]
 })
 export class SearchModule { }

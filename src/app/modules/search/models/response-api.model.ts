@@ -1,10 +1,10 @@
 import { IErrorsApi } from './errors-api.model'
-import { IItem } from './item.model';
+import { Item } from './item.model';
 
-export interface IResponseAPI {
+export interface ApiGithubResponse {
   total_count: number;
   incomplete_results: boolean;
-  items: IItem[];
+  items: Item[];
   message?: string;
   errors?: IErrorsApi;
   documentation_url?: string;

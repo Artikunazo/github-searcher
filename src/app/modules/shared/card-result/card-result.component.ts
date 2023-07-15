@@ -5,7 +5,7 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { IItem } from '@modules/search/models/item.model';
+import { Item } from '@modules/search/models/item.model';
 
 @Component({
   selector: 'card-result',
@@ -13,7 +13,7 @@ import { IItem } from '@modules/search/models/item.model';
   styleUrls: ['./card-result.component.scss'],
 })
 export class CardResultComponent implements OnInit, OnDestroy {
-  @Input() result!: IItem;
+  @Input() result!: Item;
 
   private _subscriptions = new Subscription();
 
