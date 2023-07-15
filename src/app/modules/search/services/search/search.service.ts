@@ -40,8 +40,6 @@ export class SearchService {
       return EMPTY;
     }
 
-    debugger;
-
     this.valueToSearch = value;
     const url = this.getUrl();
 

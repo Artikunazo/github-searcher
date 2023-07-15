@@ -1,9 +1,4 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  OnDestroy,
-} from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import {
   UntypedFormBuilder,
   Validators,
@@ -11,7 +6,7 @@ import {
 } from '@angular/forms';
 import { SearchService } from '../../services/search/search.service';
 import { Subscription } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { debounceTime, delay } from 'rxjs/operators';
 import { Item } from '@modules/search/models/item.model';
 
 @Component({
@@ -20,7 +15,6 @@ import { Item } from '@modules/search/models/item.model';
   styleUrls: ['./search-bar.component.scss'],
 })
 export class SearchBarComponent implements OnInit, OnDestroy {
-
   public typeSearchList: string[] = [];
   public formSearch: UntypedFormGroup;
   public loading: boolean = false;
@@ -42,12 +36,13 @@ export class SearchBarComponent implements OnInit, OnDestroy {
   }
 
   setSearchFieldLiestener() {
-    this.formSearch.get('search')?.valueChanges.subscribe((value) => {
-      setTimeout(() => {
+    this.formSearch
+      .get('search')
+      ?.valueChanges.pipe(debounceTime(500))
+      .subscribe((value) => {
         this._searchService.setDataCollection([]);
         this.search(value);
-      }, 500);
-    });
+      });
   }
 
   search(value: string): void {
