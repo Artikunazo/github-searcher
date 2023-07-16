@@ -2,13 +2,10 @@ import { Injectable } from '@angular/core';
 import { ConnectorService } from '@core/services/connector/connector.service';
 import { environment } from '@environments/environment';
 import { Item } from '@modules/search/models/item.model';
-import { Observable, EMPTY, throwError, BehaviorSubject, Subject } from 'rxjs';
+import { Observable, EMPTY, throwError, BehaviorSubject } from 'rxjs';
 import {
   map,
   delay,
-  expand,
-  scan,
-  take
 } from 'rxjs/operators';
 import { ApiGithubResponse } from '../../models/response-api.model';
 
