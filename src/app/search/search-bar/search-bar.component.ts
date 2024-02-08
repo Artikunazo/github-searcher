@@ -1,9 +1,9 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
 import {UntypedFormBuilder, Validators, UntypedFormGroup} from '@angular/forms';
-import {SearchService} from '../../../../api/search.service';
+import {SearchService} from '../../api/search.service';
 import {Subscription} from 'rxjs';
 import {debounceTime, delay} from 'rxjs/operators';
-import {Item} from '@modules/search/models/item.model';
+import {Item} from 'src/app/models/item.model';
 import {Store} from '@ngrx/store';
 import * as fromStore from 'src/app/store';
 

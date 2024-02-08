@@ -5,7 +5,7 @@ const routes: Routes = [
 	{
 		path: '',
 		loadChildren: () =>
-			import('@modules/search/search.module').then((m) => m.SearchModule),
+			import('src/app/search/search.module').then((m) => m.SearchModule),
 	},
 	{
 		path: '**',

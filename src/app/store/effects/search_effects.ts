@@ -6,6 +6,7 @@ import * as fromSearchActions from '../actions/search_actions';
 import {map, switchMap, catchError} from 'rxjs';
 import {Repository} from 'src/app/models/repositories_model';
 import {SearchService} from 'src/app/api/search.service';
+import {ApiGithubResponse} from 'src/app/models/response-api.model';
 
 @Injectable({
 	providedIn: 'root',
@@ -24,8 +25,8 @@ export class SearchEffects {
 			}), // extract the payload
 			switchMap((response: string) => {
 				return this.searchService.search(response).pipe(
-					map((data: Repository[]) => {
-						return new fromSearchActions.LoadRepositoriesSuccess(data);
+					map((data: ApiGithubResponse) => {
+						return new fromSearchActions.LoadRepositoriesSuccess(data.items);
 					}),
 					catchError((error: string) => {
 						return of(new fromSearchActions.LoadRepositoriesFail(error));

@@ -1,7 +1,7 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
 import {Subject, Subscription} from 'rxjs';
 import {SearchService} from 'src/app/api/search.service';
-import {Item} from '@modules/search/models/item.model';
+import {Item} from 'src/app/models/item.model';
 import {Store} from '@ngrx/store';
 import * as fromStore from 'src/app/store';
 import {Repository} from 'src/app/models/repositories_model';
