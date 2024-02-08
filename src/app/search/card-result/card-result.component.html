@@ -1,86 +1,87 @@
 <mat-card>
-  <mat-card-header>
-    <div>
-      <mat-icon
-      [class.text-success]="result.state === 'open'"
-      [class.text-danger]="result.state === 'closed'"
-      title="Status: {{ result.state }}"
-      >circle</mat-icon
-    >
-    <p>{{ result.title }}</p>
-    </div>
-  </mat-card-header>
-  <mat-card-content class="card-body">
-    <div class="card-text">
-      <p *ngIf="result?.assignee?.html_url; else nobodyAssigned">
-        Assignee:
-        <a
-          href="{{ result.assignee.html_url }}"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <strong>{{ result.assignee.login }}</strong>
-        </a>
-      </p>
+	<mat-card-header>
+		<div>
+			<mat-icon
+				[class.text-success]="result.state === 'open'"
+				[class.text-danger]="result.state === 'closed'"
+				title="Status: {{ result.state }}"
+				>circle</mat-icon
+			>
+			<p>{{ result.title }}</p>
+		</div>
+	</mat-card-header>
+	<mat-card-content class="card-body">
+		<div class="card-text">
+			@if(result.assignee?.html_url) {
+			<p>
+				Assignee:
+				<a
+					href="{{ result.assignee.html_url }}"
+					target="_blank"
+					rel="noopener noreferrer"
+				>
+					<strong>{{ result.assignee.login }}</strong>
+				</a>
+			</p>
+			} @else {
+			<ng-template #nobodyAssigned>
+				<p>
+					Assignee: <strong><i>Nobody assigned yet</i></strong>
+				</p> </ng-template
+			>} @if(result.assignees.length) {
+			<div>
+				<p>Asignees:</p>
+				<ul>
+					<li *ngFor="let assign of result?.assignees">
+						<a
+							href="{{ assign.html_url }}"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							<strong>{{ assign.login }}</strong>
+						</a>
+					</li>
+				</ul>
+			</div>
+			} @if(result.pull_request?.html_url) {
+			<p>
+				<a
+					href="{{ result.pull_request.html_url }}"
+					target="_blank"
+					rel="noopener noreferrer"
+				>
+					<strong>View pull request</strong>
+				</a>
+			</p>
+			}
 
-      <ng-template #nobodyAssigned>
-        <p>
-          Assignee: <strong><i>Nobody assigned yet</i></strong>
-        </p>
-      </ng-template>
+			<p>
+				Comments: <strong>{{ result.comments }}</strong>
+			</p>
 
-      <div *ngIf="result?.assignees?.length">
-        <p>Asignees:</p>
-        <ul>
-          <li *ngFor="let assign of result?.assignees">
-            <a
-              href="{{ assign.html_url }}"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <strong>{{ assign.login }}</strong>
-            </a>
-          </li>
-        </ul>
-      </div>
+			<p>
+				Created at: <strong>{{ result.created_at | date : 'long' }}</strong>
+			</p>
 
-      <p *ngIf="result?.pull_request?.html_url">
-        <a
-          href="{{ result.pull_request.html_url }}"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <strong>View pull request</strong>
-        </a>
-      </p>
+			<p>
+				Updated at: <strong>{{ result.updated_at | date : 'long' }}</strong>
+			</p>
 
-      <p>
-        Comments: <strong>{{ result.comments }}</strong>
-      </p>
-
-      <p>
-        Created at: <strong>{{ result.created_at | date : "long" }}</strong>
-      </p>
-
-      <p>
-        Updated at: <strong>{{ result.updated_at | date : "long" }}</strong>
-      </p>
-
-      <p>
-        Score: <strong>{{ result.score }}</strong>
-      </p>
-    </div>
-  </mat-card-content>
-  <mat-card-actions>
-    <a
-      mat-raised-button
-      color="primary"
-      href="{{ result.html_url }}"
-      target="_blank"
-      class="btn btn-primary card__view-button"
-      title="View on Github"
-    >
-      View on Github
-    </a>
-  </mat-card-actions>
+			<p>
+				Score: <strong>{{ result.score }}</strong>
+			</p>
+		</div>
+	</mat-card-content>
+	<mat-card-actions>
+		<a
+			mat-raised-button
+			color="primary"
+			href="{{ result.html_url }}"
+			target="_blank"
+			class="btn btn-primary card__view-button"
+			title="View on Github"
+		>
+			View on Github
+		</a>
+	</mat-card-actions>
 </mat-card>
