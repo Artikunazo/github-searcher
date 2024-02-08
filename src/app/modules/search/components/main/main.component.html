@@ -1,42 +1,42 @@
 <section class="container-liquid px-2">
-  <br />
-  <div class="row">
-    <div class="col-12 text-center">
-      <h1>Github Issues Searcher</h1>
-      <small class="text-muted"
-        >By Arturo Casas -
-        <a
-          href="https://github.com/Artikunazo/github-searcher"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Source code
-        </a>
-      </small>
-    </div>
-  </div>
+	<br />
+	<div class="row">
+		<div class="col-12 text-center">
+			<h1>Github Issues Searcher</h1>
+			<small class="text-muted"
+				>By Arturo Casas -
+				<a
+					href="https://github.com/Artikunazo/github-searcher"
+					target="_blank"
+					rel="noopener noreferrer"
+				>
+					Source code
+				</a>
+			</small>
+		</div>
+	</div>
 
-  <br />
-  <br />
+	<br />
+	<br />
 
-  <div class="row">
-    <div class="col">
-      <search-bar></search-bar>
-    </div>
-  </div>
+	<div class="row">
+		<div class="col">
+			<search-bar></search-bar>
+		</div>
+	</div>
 
-  <div
-    class="row results-container mt-3"
-    infinite-scroll
-    [infiniteScrollDistance]="6"
-    [infiniteScrollThrottle]="500"
-    (scrolled)="onScroll()"
-    *ngIf="results?.length"
-  >
-    <ng-container *ngFor="let result of results">
-      <div class="xs-12 sm-6 md-4 lg-3 mx-3 my-2">
-        <card-result [result]="result"></card-result>
-      </div>
-    </ng-container>
-  </div>
+	<div
+		class="row results-container mt-3"
+		infinite-scroll
+		[infiniteScrollDistance]="6"
+		[infiniteScrollThrottle]="500"
+		(scrolled)="onScroll()"
+		*ngIf="results?.length"
+	>
+		<ng-container *ngFor="let result of results">
+			<div class="xs-12 sm-6 md-4 lg-3 mx-3 my-2">
+				<card-result [result]="result"></card-result>
+			</div>
+		</ng-container>
+	</div>
 </section>

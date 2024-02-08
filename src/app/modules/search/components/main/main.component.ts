@@ -1,38 +1,44 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subject, Subscription } from 'rxjs';
-import { SearchService } from '@modules/search/services/search/search.service';
-import { Item } from '@modules/search/models/item.model';
+import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Subject, Subscription} from 'rxjs';
+import {SearchService} from 'src/app/api/search.service';
+import {Item} from '@modules/search/models/item.model';
+import {Store} from '@ngrx/store';
+import * as fromStore from 'src/app/store';
+import {Repository} from 'src/app/models/repositories_model';
 
 @Component({
-  selector: 'main',
-  templateUrl: './main.component.html',
-  styleUrls: ['./main.component.scss'],
+	selector: 'main',
+	templateUrl: './main.component.html',
+	styleUrls: ['./main.component.scss'],
 })
 export class MainComponent implements OnInit, OnDestroy {
-  public results: Item[] = [];
-  public scrollChanged = new Subject<any>;
+	public results: Repository[] = [];
+	public scrollChanged = new Subject<any>();
 
-  private subscriptions$ = new Subscription();
+	private subscriptions$ = new Subscription();
 
-  constructor(
-    private _searchService: SearchService
-  ) {}
+	constructor(
+		private _searchService: SearchService,
+		private readonly store: Store<fromStore.AppState>
+	) {}
 
-  ngOnInit(): void {
-    this.subscriptions$.add(
-      this._searchService.dataCollection$.subscribe({
-        next: () => {
-          this.results = this._searchService.dataCollection$.getValue();
-        }
-      })
-    );
-  }
+	ngOnInit(): void {
+		this.store.select(fromStore.getDataSearched).subscribe({
+			next: (response: any) => {
+				this.results = response;
+			},
+		});
+	}
 
-  onScroll() {
-    this._searchService.searchFromScroll();
-  }
+	onScroll() {
+		this.store.select(fromStore.getParamToSearch).subscribe({
+			next: (response: string) => {
+				this.store.dispatch(new fromStore.LoadRepositories(response));
+			},
+		});
+	}
 
-  ngOnDestroy(): void {
-    this.subscriptions$.unsubscribe();
-  }
+	ngOnDestroy(): void {
+		this.subscriptions$.unsubscribe();
+	}
 }
