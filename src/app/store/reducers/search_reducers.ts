@@ -24,6 +24,10 @@ export function reducer(
 ): SearchState {
 	switch (action.type) {
 		case fromSearchActions.SearchActionTypes.LOAD_REPOSITORIES: {
+			if (state.paramToSearch !== action.payload) {
+				return {...initialState, paramToSearch: action.payload, loading: true};
+			}
+
 			return {
 				...state,
 				loading: true,
